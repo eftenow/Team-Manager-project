@@ -1,10 +1,8 @@
-import { html } from '../../node_modules/lit-html/lit-html.js';
 import { leaveTeamHandler, getTeamCandidates, getTeamMembers, joinHanlder, removeHandler, editHandler } from '../services/guildBtnHandlers.js';
-import { getAllMembers, getAllTeamsIncludingTheMember, getMembersAndCandidates, getTeamDetails } from '../services/teamsServices.js';
-import { getUserId } from '../services/userServices.js';
+import { getTeamDetails } from '../services/teamsServices.js';
+import { getLastRemovedMember, getUserId } from '../services/userServices.js';
 import { detailsTemplate } from './templates/detailsTemplate.js';
 import { appliedTemplate, nonAppliedTemplate, ownerViewTemplate } from './userViews.js';
-
 
 
 export async function detailsPage(ctx) {
@@ -21,11 +19,12 @@ export async function detailsPage(ctx) {
     let isGuest = currentUserId === null;
     let isApplied = candidates.some(m => m._ownerId === currentUserId);
     let isNonAppliedMember = isMember == false && isGuest == false && isApplied == false && isOwner == false;
+    let lastRemovedMember = await getLastRemovedMember();
 
     let currentUserView;
 
     if (isOwner) {
-        currentUserView = ownerViewTemplate(ctx, members, candidates, teamOwnerId);
+        currentUserView = ownerViewTemplate(ctx, members, candidates, teamOwnerId, lastRemovedMember);
     } else if (isNonAppliedMember) {
         currentUserView = nonAppliedTemplate(ctx, members, joinHanlder);
     } else if (isApplied) {
@@ -42,8 +41,3 @@ export async function detailsPage(ctx) {
     let detailsSection = detailsTemplate(currentTeam, members, currentUserView);
     ctx.render(detailsSection);
 }
-
-
-{/* <a href="/join" class="action">Join team</a>
-<a href="/leave" class="action invert">Leave team</a>
-Membership pending. <a href="#">Cancel request</a> */}

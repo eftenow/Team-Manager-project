@@ -64,16 +64,19 @@ export async function logout() {
         method: 'GET',
         headers: { 'X-Authorization': accessToken }
     })
+    localStorage.clear();
 
-    if (response.ok) {
-        localStorage.clear();
-    } else {
+    if (!response.ok) {
         throw new Error();
-    }
+    };
 
 };
 
 export function getUser() {
     return JSON.parse(localStorage.getItem('username'));
+};
+
+export function getLastRemovedMember() {
+    return JSON.parse(localStorage.getItem('removedMember'));
 }
 

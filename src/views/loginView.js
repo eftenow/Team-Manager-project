@@ -50,7 +50,6 @@ async function onLoginHandler(ev, ctx) {
 
     logoutMsg.style.display = 'none';
 
-    console.log(loginMsg);
     loginMsg.style.display = "flex";
     setTimeout(function () {
         loginMsg.style.display = "none";

@@ -22,14 +22,12 @@ const navTemplate = (userId, username) => html`
     <section @click="${hideMsg}" id="logout-message" class="action">
         <p>You have successfully logged out!</p>
     </section>
-    <section @click="${hideMsg}" id="remove-message" class="action">
-        <p>You have removed ${username} from the team!</p>
-    </section>
+    
 
 `
 const mainRootElement = document.getElementById('content');
 
-export function renderNavigation(ctx) {
+export async function renderNavigation(ctx) {
     let userId = getUserId();
     let username = getUser();
     let navigation = navTemplate(userId, username);
@@ -40,10 +38,6 @@ export function renderNavigation(ctx) {
 
 }
 
-function hideMsg() {
-    let loginMsg = document.getElementById('login-message');
-    let logoutMsg = document.getElementById('logout-message');
-
-    logoutMsg.style.display = 'none'
-    loginMsg.style.display = 'none'
+export function hideMsg(ev) {
+    ev.target.style.display = 'none';
 }

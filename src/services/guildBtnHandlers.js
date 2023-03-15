@@ -81,12 +81,20 @@ export async function removeHandler(ev, ctx) {
     const teamId = ctx.params.id;
     const members = await getTeamMembers(teamId);
     const memberName = ev.target.parentNode.children[0].textContent;
+    localStorage.setItem('removedMember', JSON.stringify(memberName));
 
     const memberObj = getMemberByName(memberName, members);
     const memberId = memberObj._id;
 
     declineCancelLeaveReq(memberId);
     ctx.redirect(`/teamDetails/${teamId}`);
+
+    let removeMsg = document.getElementById('remove-message');
+
+    removeMsg.style.display = "flex";
+    setTimeout(function () {
+        removeMsg.style.display = "none";
+    }, 1500);
 
 }
 
