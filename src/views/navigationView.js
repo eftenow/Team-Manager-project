@@ -2,7 +2,7 @@ import { html, render } from '../../node_modules/lit-html/lit-html.js';
 import { getUser, getUserId } from '../services/userServices.js';
 
 
-const navTemplate = (userId) => html`
+const navTemplate = (userId, username) => html`
     <a href="/" class="site-logo">Team Manager</a>
     <nav>
         <a href="/teams" class="action">Browse Teams</a>
@@ -16,15 +16,34 @@ const navTemplate = (userId) => html`
 
     </nav>
 
+    <section @click="${hideMsg}" id="login-message" class="action">
+        <p>Welcome, ${username}!</p>
+    </section>
+    <section @click="${hideMsg}" id="logout-message" class="action">
+        <p>You have successfully logged out!</p>
+    </section>
+    <section @click="${hideMsg}" id="remove-message" class="action">
+        <p>You have removed ${username} from the team!</p>
+    </section>
+
 `
 const mainRootElement = document.getElementById('content');
 
 export function renderNavigation(ctx) {
     let userId = getUserId();
-    let navigation = navTemplate(userId);
+    let username = getUser();
+    let navigation = navTemplate(userId, username);
 
     //ctx.render(navigation);
 
     render(navigation, document.querySelector('header'));
 
+}
+
+function hideMsg() {
+    let loginMsg = document.getElementById('login-message');
+    let logoutMsg = document.getElementById('logout-message');
+
+    logoutMsg.style.display = 'none'
+    loginMsg.style.display = 'none'
 }

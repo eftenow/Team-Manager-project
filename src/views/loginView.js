@@ -19,6 +19,8 @@ const loginTemplate = (onLoginHandler, ctx) => html`
     </article>
 </section>`
 
+
+
 export function loginPage(ctx) {
     let login = loginTemplate(onLoginHandler, ctx);
     ctx.render(login);
@@ -43,4 +45,16 @@ async function onLoginHandler(ev, ctx) {
         throw new Error()
     }
     ctx.redirect('/');
-}
+    let loginMsg = document.getElementById('login-message');
+    let logoutMsg = document.getElementById('logout-message');
+
+    logoutMsg.style.display = 'none';
+
+    console.log(loginMsg);
+    loginMsg.style.display = "flex";
+    setTimeout(function () {
+        loginMsg.style.display = "none";
+    }, 2000);
+};
+
+

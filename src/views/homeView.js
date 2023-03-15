@@ -2,8 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getUser } from '../services/userServices.js';
 
 
-const homeTemplate = (isAuthorized) => html`
-
+const homeTemplate = (isAuthorized, username) => html`
     <section id="home">
         <article class="hero layout">
             <img src="./assets/team.png" class="left-col pad-med">
