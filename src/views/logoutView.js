@@ -8,8 +8,8 @@ export async function logoutUser(ctx) {
     let logoutMsg = document.getElementById('logout-message');
     let loginMsg = document.getElementById('login-message');
     loginMsg.style.display = 'none';
-    console.log(logoutMsg);
     logoutMsg.style.display = "flex";
+    
     setTimeout(function () {
         logoutMsg.style.display = "none";
     }, 2000);

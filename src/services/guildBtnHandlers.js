@@ -3,6 +3,7 @@ import page from "../../node_modules/page/page.mjs";
 import { approveMemberReq, declineCancelLeaveReq, editTeamReq, getAllMembers, getMembersAndCandidates, getSpecificTeam, getTeamDetails, joinTeamRequst } from "./teamsServices.js";
 import { teamCreateEditValidator, validateTeamDescription, validateTeamLogoUrl, validateTeamName } from "./validators.js";
 import { showTeams } from "../views/teamsView.js";
+import { getLastRemovedMember } from "./userServices.js";
 
 function getMemberByName(name, members) {
     return members.find(m => m.user.username === name);
@@ -75,18 +76,17 @@ async function saveChangesHandler(ev, ctx) {
 
 }
 
-
-export async function removeHandler(ev, ctx) {
-    ev.preventDefault();
+export async function confirmRemoval(ev, ctx) {
+    document.getElementById('modal').style.display = 'none';
+    const memberName =  getLastRemovedMember();
     const teamId = ctx.params.id;
-    const members = await getTeamMembers(teamId);
-    const memberName = ev.target.parentNode.children[0].textContent;
-    localStorage.setItem('removedMember', JSON.stringify(memberName));
+    const teamMembers = await getTeamMembers(teamId);
 
-    const memberObj = getMemberByName(memberName, members);
+    const memberObj = getMemberByName(memberName, teamMembers);
     const memberId = memberObj._id;
 
-    declineCancelLeaveReq(memberId);
+    await declineCancelLeaveReq(memberId);
+
     ctx.redirect(`/teamDetails/${teamId}`);
 
     let removeMsg = document.getElementById('remove-message');
@@ -94,8 +94,23 @@ export async function removeHandler(ev, ctx) {
     removeMsg.style.display = "flex";
     setTimeout(function () {
         removeMsg.style.display = "none";
-    }, 1500);
+    }, 2000);
+}
 
+export function cancelRemoval(ev) {
+    document.getElementById('modal').style.display = 'none';
+    return;
+}
+
+
+export async function removeHandler(ev, ctx) {
+    ev.preventDefault();
+    document.getElementById('modal').style.display = 'block';
+    const memberName = ev.target.parentNode.children[0].textContent;
+    localStorage.setItem('removedMember', memberName);
+    ctx.redirect(`/teamDetails/${ctx.params.id}`);
+
+    
 }
 
 

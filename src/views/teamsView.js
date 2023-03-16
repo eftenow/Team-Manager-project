@@ -64,7 +64,6 @@ export async function teamsPage(ctx) {
     let [totalTeamsCount, existingTeams] = await promises;
     let pagesCount = Math.ceil(Number(totalTeamsCount) / 3);
 
-    console.log(pagesCount);
     showTeams(existingTeams, ctx, currentPage, pagesCount);
 };
 

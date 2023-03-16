@@ -77,6 +77,5 @@ export function getUser() {
 };
 
 export function getLastRemovedMember() {
-    return JSON.parse(localStorage.getItem('removedMember'));
-}
-
+    return localStorage.getItem('removedMember');
+};
