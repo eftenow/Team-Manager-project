@@ -1,4 +1,4 @@
-const url = 'http://localhost:3030/users';
+const url = 'https://tame-cyan-fawn-tam.cyclic.app/users';
 
 const endpoitns = {
     'login': '/users/login',

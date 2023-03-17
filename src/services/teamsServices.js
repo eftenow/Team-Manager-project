@@ -1,6 +1,6 @@
 import { getAccessToken } from "./userServices.js";
 export let PAGE_SIZE = 5;
-const baseUrl = 'http://localhost:3030/data';
+const baseUrl = 'https://tame-cyan-fawn-tam.cyclic.app/data';
 
 
 export async function getAllExistingTeams(page) {
