@@ -17,6 +17,7 @@ const homeTemplate = (isAuthorized, username) => html`
 
             </div>
         </article>
+       
     </section>
 `
 

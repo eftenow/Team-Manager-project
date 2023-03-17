@@ -6,13 +6,7 @@ export const ownerViewTemplate = (ctx, members, candidates, ownerId, removed) =>
 <a href="#" @click="${(e) => editHandler(e, ctx)}" class="action">Edit Team</a>
 <div class="pad-large">
     <h3>Members</h3>
-    <div id="modal" class="modal overlay">
-                <div class="modal-content">
-                    <p>Are you sure you want to remove <u>${removed}</u> from the team?</p>
-                    <button @click="${(e) => confirmRemoval(e, ctx)}" class="action" id="confirm-remove">Yes</button>
-                    <button @click="${cancelRemoval}" class="action" id="cancel-remove">No</button>
-                </div>
-            </div>
+    
     
     <ul class="tm-members">
         ${members.map(member => html`
@@ -73,4 +67,5 @@ ${isMember
     </ul>
 </div>
 `
+
 

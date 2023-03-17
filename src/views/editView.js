@@ -15,4 +15,5 @@ export const editTemplate = (team, saveChangesHandler, ctx) => html`
             <input class="action cta" type="submit" value="Save Changes">
         </form>
     </article>
+    
 </section>`

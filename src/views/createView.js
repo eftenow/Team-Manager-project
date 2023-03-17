@@ -18,6 +18,7 @@ export const createTemplate = (createTeam) => html`
                 <input class="action cta" type="submit" value="Create Team">
             </form>
         </article>
+        
     </section>
 `
 

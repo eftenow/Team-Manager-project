@@ -4,6 +4,7 @@ import { approveMemberReq, declineCancelLeaveReq, editTeamReq, getAllMembers, ge
 import { teamCreateEditValidator, validateTeamDescription, validateTeamLogoUrl, validateTeamName } from "./validators.js";
 import { showTeams } from "../views/teamsView.js";
 import { getLastRemovedMember } from "./userServices.js";
+import { showModal } from "../views/templates/modalTemplate.js";
 
 function getMemberByName(name, members) {
     return members.find(m => m.user.username === name);
@@ -78,7 +79,7 @@ async function saveChangesHandler(ev, ctx) {
 
 export async function confirmRemoval(ev, ctx) {
     document.getElementById('modal').style.display = 'none';
-    const memberName =  getLastRemovedMember();
+    const memberName = getLastRemovedMember();
     const teamId = ctx.params.id;
     const teamMembers = await getTeamMembers(teamId);
 
@@ -102,17 +103,25 @@ export function cancelRemoval(ev) {
     return;
 }
 
-
 export async function removeHandler(ev, ctx) {
     ev.preventDefault();
-    document.getElementById('modal').style.display = 'block';
     const memberName = ev.target.parentNode.children[0].textContent;
-    localStorage.setItem('removedMember', memberName);
-    ctx.redirect(`/teamDetails/${ctx.params.id}`);
+    const message = `Are you sure you want to remove ${memberName} from the team?`
 
-    
+    showModal(message, onSelect);
+
+    async function onSelect(choice) {
+        if (choice) {
+            const teamId = ctx.params.id;
+            const teamMembers = await getTeamMembers(teamId);
+            const memberObj = getMemberByName(memberName, teamMembers);
+            const memberId = memberObj._id;
+
+            await declineCancelLeaveReq(memberId);
+            ctx.redirect(`/teamDetails/${ctx.params.id}`);
+        }
+    }
 }
-
 
 export async function approveHandler(ev, ctx) {
     ev.preventDefault();
@@ -143,7 +152,7 @@ export async function declineHandler(ev, ctx) {
 export async function searchHandler(ev) {
     ev.preventDefault();
     const searchText = ev.target.previousElementSibling;
-    
+
     page.redirect(`/teams/search?match=${encodeURIComponent(searchText.value)}`);
     searchText.value = '';
 
@@ -157,4 +166,15 @@ export async function searchedTeamsPage(ctx) {
     showTeams(teamsThatMeetCriteria, ctx);
 
 
-}
+};
+
+
+const toTop = document.querySelector('#back-to-top-btn');
+
+window.addEventListener("scroll", () => {
+    if (window.pageYOffset > 100) {
+        toTop.style.display = 'inline-flex';
+    } else {
+        toTop.style.display = 'none';
+    }
+})

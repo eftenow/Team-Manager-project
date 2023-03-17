@@ -1,11 +1,11 @@
 import { getAccessToken } from "./userServices.js";
-
+export let PAGE_SIZE = 5;
 const baseUrl = 'http://localhost:3030/data';
 
 
 export async function getAllExistingTeams(page) {
-    let pageSize = 3;
-    let querystring = `/teams?offset=${(page - 1) * pageSize}&pageSize=3`;
+    
+    let querystring = `/teams?offset=${(page - 1) * PAGE_SIZE}&pageSize=5`;
     let response = await fetch(baseUrl + querystring);
     return response.json()
 }

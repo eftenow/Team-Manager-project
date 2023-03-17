@@ -1,6 +1,6 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getTeamMembers, searchHandler } from '../services/guildBtnHandlers.js';
-import { getAllExistingTeams, getAllTeamsCount } from '../services/teamsServices.js';
+import { getAllExistingTeams, getAllTeamsCount, PAGE_SIZE } from '../services/teamsServices.js';
 import { getUser } from '../services/userServices.js';
 
 export const teamTemplate = (data) => html`
@@ -62,7 +62,7 @@ export async function teamsPage(ctx) {
     ])
 
     let [totalTeamsCount, existingTeams] = await promises;
-    let pagesCount = Math.ceil(Number(totalTeamsCount) / 3);
+    let pagesCount = Math.ceil(Number(totalTeamsCount) / PAGE_SIZE);
 
     showTeams(existingTeams, ctx, currentPage, pagesCount);
 };

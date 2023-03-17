@@ -17,6 +17,7 @@ const loginTemplate = (onLoginHandler, ctx) => html`
         <footer class="pad-small">Don't have an account? <a href="/register" class="invert">Sign up here</a>
         </footer>
     </article>
+    
 </section>`
 
 
