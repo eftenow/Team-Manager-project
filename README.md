@@ -1,2 +1,2 @@
 # Team-Manager-project
-this is my first project that I deploy in the web
+this is my first web deployed project
